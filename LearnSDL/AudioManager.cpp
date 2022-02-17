@@ -1,70 +1,73 @@
 #include "AudioManager.h"
+namespace QuickSDL {
 
-AudioManager* AudioManager::sInstance = NULL;
 
-AudioManager* AudioManager::Instance()
-{
-	if (sInstance == NULL)
+	AudioManager* AudioManager::sInstance = NULL;
+
+	AudioManager* AudioManager::Instance()
 	{
-		sInstance = new AudioManager();
+		if (sInstance == NULL)
+		{
+			sInstance = new AudioManager();
+		}
+
+		return sInstance;
 	}
 
-	return sInstance;
-}
-
-void AudioManager::Release()
-{
-	delete sInstance;
-	sInstance = NULL;
-}
-
-AudioManager::AudioManager()
-{
-	mAssetManager = AssetManager::Instance();
-
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+	void AudioManager::Release()
 	{
-		printf("mixer init error: %s \n", Mix_GetError());
+		delete sInstance;
+		sInstance = NULL;
 	}
 
-}
-
-AudioManager::~AudioManager()
-{
-	mAssetManager = NULL;
-	Mix_Quit();
-}
-
-void AudioManager::PlayMusic(const std::string& filename, int loops)
-{
-	Mix_PlayMusic(mAssetManager->GetMusic(filename), loops);
-}
-
-void AudioManager::PauseMusic()
-{
-	if (Mix_PlayingMusic() != 0)
+	AudioManager::AudioManager()
 	{
-		Mix_PausedMusic();
-	}
-}
+		mAssetManager = AssetManager::Instance();
 
-void AudioManager::ResumeMusic()
-{
-	if (Mix_PausedMusic() != 0)
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+		{
+			printf("mixer init error: %s \n", Mix_GetError());
+		}
+
+	}
+
+	AudioManager::~AudioManager()
 	{
-		Mix_ResumeMusic();
+		mAssetManager = NULL;
+		Mix_Quit();
 	}
-}
 
-void AudioManager::PlaySFX(const std::string& filename, int loops, int channel)
-{
-	Mix_PlayChannel(channel, mAssetManager->GetSFX(filename), loops);
-}
+	void AudioManager::PlayMusic(const std::string& filename, int loops)
+	{
+		Mix_PlayMusic(mAssetManager->GetMusic(filename), loops);
+	}
 
-void AudioManager::PauseSFX()
-{
-}
+	void AudioManager::PauseMusic()
+	{
+		if (Mix_PlayingMusic() != 0)
+		{
+			Mix_PausedMusic();
+		}
+	}
 
-void AudioManager::ResumeSFX()
-{
+	void AudioManager::ResumeMusic()
+	{
+		if (Mix_PausedMusic() != 0)
+		{
+			Mix_ResumeMusic();
+		}
+	}
+
+	void AudioManager::PlaySFX(const std::string& filename, int loops, int channel)
+	{
+		Mix_PlayChannel(channel, mAssetManager->GetSFX(filename), loops);
+	}
+
+	void AudioManager::PauseSFX()
+	{
+	}
+
+	void AudioManager::ResumeSFX()
+	{
+	}
 }

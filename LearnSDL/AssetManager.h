@@ -6,31 +6,34 @@
 // *******************************************
 // ******* serve as a cache for assets *******
 // *******************************************
+namespace QuickSDL {
 
-class AssetManager 
-{
-private:
-	static AssetManager* sInstance;
 
-	std::map<std::string, SDL_Texture*> mTextures;
-	std::map<std::string, SDL_Texture*> mTexts;
-	std::map<std::string, TTF_Font*>    mFonts;
-	std::map<std::string, Mix_Music*> mMusics;
-	std::map<std::string, Mix_Chunk*> mSFXs;
+	class AssetManager
+	{
+	private:
+		static AssetManager* sInstance;
 
-public:
+		std::map<std::string, SDL_Texture*> mTextures;
+		std::map<std::string, SDL_Texture*> mTexts;
+		std::map<std::string, TTF_Font*>    mFonts;
+		std::map<std::string, Mix_Music*> mMusics;
+		std::map<std::string, Mix_Chunk*> mSFXs;
 
-	static AssetManager* Instance();
-	static void Release();
+	public:
 
-	SDL_Texture* GetTexture(const std::string& filename);
-	SDL_Texture* GetText(const std::string& text, const std::string& filename, int size, SDL_Color color);
+		static AssetManager* Instance();
+		static void Release();
 
-	Mix_Music* GetMusic(const std::string& filename);
-	Mix_Chunk* GetSFX(const std::string& filename);
-private:
-	AssetManager();
-	~AssetManager();
+		SDL_Texture* GetTexture(const std::string& filename);
+		SDL_Texture* GetText(const std::string& text, const std::string& filename, int size, SDL_Color color);
 
-	TTF_Font* GetFont(const std::string& filename, int size);
-};
+		Mix_Music* GetMusic(const std::string& filename);
+		Mix_Chunk* GetSFX(const std::string& filename);
+	private:
+		AssetManager();
+		~AssetManager();
+
+		TTF_Font* GetFont(const std::string& filename, int size);
+	};
+}

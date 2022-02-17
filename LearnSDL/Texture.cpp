@@ -1,73 +1,78 @@
 #include "Texture.h"
 
-Texture::Texture(const std::string& filename)
-{
-	mGraphics = Graphics::Instance();
+namespace QuickSDL {
 
-	mTexture = AssetManager::Instance()->GetTexture(filename);
 
-	SDL_QueryTexture(mTexture, NULL, NULL, &mWidth , &mHeight);
+	Texture::Texture(const std::string& filename)
+	{
+		mGraphics = Graphics::Instance();
 
-	mClipped = false;
+		mTexture = AssetManager::Instance()->GetTexture(filename);
 
-	mRenderRect.w = mWidth;
-	mRenderRect.h = mHeight;
-}
+		SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
 
-Texture::Texture(const std::string& filename, int x, int y, int w, int h)
-{
-	mGraphics = Graphics::Instance();
+		mClipped = false;
 
-	mTexture = AssetManager::Instance()->GetTexture(filename);
+		mRenderRect.w = mWidth;
+		mRenderRect.h = mHeight;
+	}
 
-	mClipped = true;
+	Texture::Texture(const std::string& filename, int x, int y, int w, int h)
+	{
+		mGraphics = Graphics::Instance();
 
-	mWidth = w;
-	mHeight = h;
+		mTexture = AssetManager::Instance()->GetTexture(filename);
 
-	mRenderRect.w = mWidth;
-	mRenderRect.h = mHeight;
+		mClipped = true;
 
-	mClippedRect.x = x;
-	mClippedRect.y = y;
-	mClippedRect.w = mWidth;
-	mClippedRect.h = mHeight;
+		mWidth = w;
+		mHeight = h;
 
-}
+		mRenderRect.w = mWidth;
+		mRenderRect.h = mHeight;
 
-Texture::Texture(const std::string& text, const std::string& fontPath, int size, SDL_Color color)
-{
-	mGraphics = Graphics::Instance();
+		mClippedRect.x = x;
+		mClippedRect.y = y;
+		mClippedRect.w = mWidth;
+		mClippedRect.h = mHeight;
 
-	mTexture = AssetManager::Instance()->GetText(text, fontPath, size, color);
+	}
 
-	mClipped = false;
+	Texture::Texture(const std::string& text, const std::string& fontPath, int size, SDL_Color color)
+	{
+		mGraphics = Graphics::Instance();
 
-	SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
+		mTexture = AssetManager::Instance()->GetText(text, fontPath, size, color);
 
-	mRenderRect.w = mWidth;
-	mRenderRect.h = mHeight;
-}
+		mClipped = false;
 
-Texture::~Texture()
-{
-	mTexture = NULL;
-	mGraphics = NULL;
-}
+		SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
 
-void Texture::Render()
-{
-	// get world position
-	Vector2 pos = Pos(SPACE::world);
+		mRenderRect.w = mWidth;
+		mRenderRect.h = mHeight;
+	}
 
-	// get scale
-	Vector2 scale = Scale(SPACE::world);
+	Texture::~Texture()
+	{
+		mTexture = NULL;
+		mGraphics = NULL;
+	}
 
-	// render the texture at the center of position
-	mRenderRect.x = (int)(pos.x - mWidth  * scale.x * 0.5f);
-	mRenderRect.y = (int)(pos.y - mHeight * scale.y * 0.5f);
-	mRenderRect.w = (int)(mWidth  * scale.x);
-	mRenderRect.h = (int)(mHeight * scale.y);
+	void Texture::Render()
+	{
+		// get world position
+		Vector2 pos = Pos(SPACE::world);
 
-	mGraphics->DrawTexture(mTexture, (mClipped) ? &mClippedRect : NULL, &mRenderRect, Rotation(SPACE::world));
+		// get scale
+		Vector2 scale = Scale(SPACE::world);
+
+		// render the texture at the center of position
+		mRenderRect.x = (int)(pos.x - mWidth * scale.x * 0.5f);
+		mRenderRect.y = (int)(pos.y - mHeight * scale.y * 0.5f);
+		mRenderRect.w = (int)(mWidth * scale.x);
+		mRenderRect.h = (int)(mHeight * scale.y);
+
+		mGraphics->DrawTexture(mTexture, (mClipped) ? &mClippedRect : NULL, &mRenderRect, Rotation(SPACE::world));
+	}
+
 }

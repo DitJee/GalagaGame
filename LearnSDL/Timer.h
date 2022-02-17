@@ -1,30 +1,36 @@
 #pragma once
 #include <SDL.h>
-class Timer
-{
-private:
-	static Timer* sInstance;
 
-	unsigned int mStartTicks;
-	unsigned int mElapsedTicks;
-	float mDeltaTime;
-	float mTimeScale;
+namespace QuickSDL {
 
-public:
-	static Timer* Instance();
-	static void Release();
 
-	void Reset();
+	class Timer
+	{
+	private:
+		static Timer* sInstance;
 
-	float DeltaTime();
-	void TimeScale(float t); // setting the time scale
-	float TimeScale();
+		unsigned int mStartTicks;
+		unsigned int mElapsedTicks;
+		float mDeltaTime;
+		float mTimeScale;
 
-	void Update(); // update for timer
+	public:
+		static Timer* Instance();
+		static void Release();
 
-private:
+		void Reset();
 
-	Timer();
-	~Timer();
+		float DeltaTime();
+		void TimeScale(float t); // setting the time scale
+		float TimeScale();
 
-};
+		void Update(); // update for timer
+
+	private:
+
+		Timer();
+		~Timer();
+
+	};
+
+}

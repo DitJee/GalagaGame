@@ -1,60 +1,63 @@
 #include "Timer.h"
+namespace QuickSDL {
 
-Timer* Timer::sInstance = NULL;
 
-Timer* Timer::Instance()
-{
-	if (sInstance == NULL)
+	Timer* Timer::sInstance = NULL;
+
+	Timer* Timer::Instance()
 	{
-		sInstance = new Timer();
+		if (sInstance == NULL)
+		{
+			sInstance = new Timer();
 
-		
+
+		}
+		return sInstance;
 	}
-	return sInstance;
-}
 
-void Timer::Release()
-{
-	delete sInstance;
-	sInstance = NULL;
-}
+	void Timer::Release()
+	{
+		delete sInstance;
+		sInstance = NULL;
+	}
 
 
-Timer::Timer()
-{
-	Reset();
-	mTimeScale = 1.0f;
-}
+	Timer::Timer()
+	{
+		Reset();
+		mTimeScale = 1.0f;
+	}
 
-Timer::~Timer()
-{
-}
+	Timer::~Timer()
+	{
+	}
 
-void Timer::Reset()
-{
-	mStartTicks = SDL_GetTicks(); // return number of miliseconds since SDL is init
+	void Timer::Reset()
+	{
+		mStartTicks = SDL_GetTicks(); // return number of miliseconds since SDL is init
 
-	mElapsedTicks = 0;
-	mDeltaTime = 0.0f;
-}
+		mElapsedTicks = 0;
+		mDeltaTime = 0.0f;
+	}
 
-float Timer::DeltaTime()
-{
-	return mDeltaTime;
-}
+	float Timer::DeltaTime()
+	{
+		return mDeltaTime;
+	}
 
-void Timer::TimeScale(float t)
-{
-	mTimeScale = t;
-}
+	void Timer::TimeScale(float t)
+	{
+		mTimeScale = t;
+	}
 
-float Timer::TimeScale()
-{
-	return mTimeScale;
-}
+	float Timer::TimeScale()
+	{
+		return mTimeScale;
+	}
 
-void Timer::Update()
-{
-	mElapsedTicks = SDL_GetTicks() - mStartTicks;
-	mDeltaTime = mElapsedTicks * 0.001f;
+	void Timer::Update()
+	{
+		mElapsedTicks = SDL_GetTicks() - mStartTicks;
+		mDeltaTime = mElapsedTicks * 0.001f;
+	}
 }

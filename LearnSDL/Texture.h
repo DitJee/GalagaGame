@@ -1,29 +1,34 @@
 #pragma once
 #include "GameEntity.h"
 #include "AssetManager.h"
-class Texture : public GameEntity
-{
-protected:
 
-	SDL_Texture* mTexture;
-	Graphics* mGraphics;
+namespace QuickSDL {
 
-	int mHeight;
-	int mWidth;
 
-	SDL_Rect mRenderRect;
+	class Texture : public GameEntity
+	{
+	protected:
 
-	bool mClipped;
-	SDL_Rect mClippedRect;
+		SDL_Texture* mTexture;
+		Graphics* mGraphics;
 
-public:
+		int mHeight;
+		int mWidth;
 
-	Texture(const std::string& filename);
-	Texture(const std::string& filename, int x, int y, int w, int h);
+		SDL_Rect mRenderRect;
 
-	// override for text
-	Texture(const std::string& text, const std::string& fontPath, int size, SDL_Color color);
-	~Texture();
+		bool mClipped;
+		SDL_Rect mClippedRect;
 
-	virtual void Render();
-};
+	public:
+
+		Texture(const std::string& filename);
+		Texture(const std::string& filename, int x, int y, int w, int h);
+
+		// override for text
+		Texture(const std::string& text, const std::string& fontPath, int size, SDL_Color color);
+		~Texture();
+
+		virtual void Render();
+	};
+}

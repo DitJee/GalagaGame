@@ -1,12 +1,12 @@
 #include "GameManager.h"
 
-int main(int argc, char* argv[])
-{
-	GameManager* game = GameManager::Instance();
-	game->Run();
+	int main(int argc, char* argv[])
+	{
+		QuickSDL::GameManager* game = QuickSDL::GameManager::Instance();
+		game->Run();
 
-	GameManager::Release();
-	game = NULL;
+		QuickSDL::GameManager::Release();
+		game = NULL;
 
-	return 0;
-}
+		return 0;
+	}

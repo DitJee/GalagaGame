@@ -1,4 +1,15 @@
-﻿  GameEntity.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (LearnSDL.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  AnimatedTexture.cpp
+  AssetManager.cpp
+  AudioManager.cpp
+  GameEntity.cpp
   GameManager.cpp
+  Graphics.cpp
+  InputManager.cpp
+  main.cpp
+  StartScreen.cpp
+C:\Users\ditde\source\repos\GalagaGame\LearnSDL\StartScreen.cpp(173,49): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  Texture.cpp
+  Timer.cpp
   Generating Code...
-  LearnSDL.vcxproj -> C:\Users\ditde\source\repos\LearnSDL\Debug\LearnSDL.exe
+  LearnSDL.vcxproj -> C:\Users\ditde\source\repos\GalagaGame\Debug\GalagaGame.exe

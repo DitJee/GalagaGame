@@ -4,50 +4,51 @@
 // *********************************************
 
 
-#include "AnimatedTexture.h"
-#include "InputManager.h"
+#include "StartScreen.h"
 #include "AudioManager.h"
-class GameManager 
-{
-private:
-	static GameManager* sInstance;
 
-	bool mQuit;
+namespace QuickSDL {
 
-	Graphics* mGraphics;
 
-	SDL_Event mEvents; // pull all events in window
+	class GameManager
+	{
+	private:
+		static GameManager* sInstance;
 
-	Timer* mTimer;
+		bool mQuit;
 
-	const int FRAME_RATE = 60;
+		Graphics* mGraphics;
 
-	AssetManager* mAssetManager;
+		SDL_Event mEvents; // pull all events in window
 
-	InputManager* mInputManager;
+		Timer* mTimer;
 
-	Texture* mAnimatedTexture;
+		const int FRAME_RATE = 60;
 
-	Texture* mText2;
+		AssetManager* mAssetManager;
 
-	AudioManager* mAudioManager;
+		InputManager* mInputManager;
 
-public:
+		AudioManager* mAudioManager;
 
-	static GameManager* Instance();
-	static void Release();
+		StartScreen* mStartScreen;
 
-	void Run();
+	public:
 
-private:
+		static GameManager* Instance();
+		static void Release();
 
-	GameManager();
-	~GameManager();
+		void Run();
 
-	void EarlyUpdate();
-	void Update();
-	void LateUpdate();
+	private:
 
-	void Render();
-};
-#pragma once
+		GameManager();
+		~GameManager();
+
+		void EarlyUpdate();
+		void Update();
+		void LateUpdate();
+
+		void Render();
+	};
+}
