@@ -6,6 +6,7 @@
 
 #include "StartScreen.h"
 #include "AudioManager.h"
+#include "BackgroundStar.h"
 
 namespace QuickSDL {
 
@@ -32,6 +33,8 @@ namespace QuickSDL {
 		AudioManager* mAudioManager;
 
 		StartScreen* mStartScreen;
+
+		BackgroundStar* mBackgroundStar;
 
 	public:
 

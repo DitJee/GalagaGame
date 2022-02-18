@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include <time.h>
 
 namespace QuickSDL {
 
@@ -24,6 +25,8 @@ namespace QuickSDL {
 
 	GameManager::GameManager()
 	{
+		srand(time(0));
+
 		mQuit = false;
 		mGraphics = Graphics::Instance();
 
@@ -44,8 +47,12 @@ namespace QuickSDL {
 		// init Audio manager
 		mAudioManager = AudioManager::Instance();
 
+		// bg star
+		mBackgroundStar = BackgroundStar::Instance();
+
 		// init Start screen
 		mStartScreen = new StartScreen();
+
 	}
 
 	GameManager::~GameManager()
@@ -70,6 +77,10 @@ namespace QuickSDL {
 		mAudioManager->Release();
 		mAudioManager = NULL;
 
+		// delete bg star
+		mBackgroundStar->Release();
+		mBackgroundStar = NULL;
+
 		// delete start screen
 		delete mStartScreen;
 		mStartScreen = NULL;
@@ -83,6 +94,7 @@ namespace QuickSDL {
 
 	void GameManager::Update()
 	{
+		mBackgroundStar->Update();
 		mStartScreen->Update();
 	}
 
@@ -97,6 +109,8 @@ namespace QuickSDL {
 	void GameManager::Render()
 	{
 		mGraphics->ClearBackBuffer();
+
+		mBackgroundStar->Render();
 
 		mStartScreen->Render();
 

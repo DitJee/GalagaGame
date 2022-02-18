@@ -123,6 +123,8 @@ StartScreen::StartScreen()
 	this->Pos(mAnimationStartPos);
 #pragma endregion
 
+	mBackgroundStar = BackgroundStar::Instance();
+	mBackgroundStar->Scroll(true);
 }
 
 StartScreen::~StartScreen()
@@ -162,6 +164,9 @@ StartScreen::~StartScreen()
 	mTOAD = NULL;
 	mDates = NULL;
 	mCPR = NULL;
+
+	mBackgroundStar->Release();
+	mBackgroundStar = NULL;
 }
 
 void StartScreen::ChangeSelectedMode(int changedMode)
@@ -183,6 +188,7 @@ void StartScreen::Update()
 
 		if (mAnimationTimer >= mAnimationTotalTime)
 		{
+			mBackgroundStar->Scroll(false);
 			mAnimationDone = true;
 		}
 	}

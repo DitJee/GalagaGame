@@ -2,6 +2,7 @@
 
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "BackgroundStar.h"
 
 class StartScreen : public QuickSDL::GameEntity
 {
@@ -45,6 +46,9 @@ private:
 
 	// input manager
 	QuickSDL::InputManager* mInputManger;
+
+	// bg star
+	BackgroundStar* mBackgroundStar;
 
 public:
 	StartScreen();
