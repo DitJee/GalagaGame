@@ -69,6 +69,9 @@
     <ClInclude Include="BackgroundStar.h">
       <Filter>Header Files\Galaga</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreBoard.h">
+      <Filter>Header Files\Galaga</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.cpp">
@@ -111,6 +114,9 @@
       <Filter>Source Files\Galaga</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundStar.cpp">
+      <Filter>Source Files\Galaga</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreBoard.cpp">
       <Filter>Source Files\Galaga</Filter>
     </ClCompile>
   </ItemGroup>

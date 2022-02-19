@@ -32,6 +32,23 @@ StartScreen::StartScreen()
 	mTopBar->Parent(this);
 #pragma endregion
 
+#pragma region ScoreBoard
+	mPlayerOneScore = new ScoreBoard();
+	mPlayerTwoScore = new ScoreBoard();
+	mTopScore = new ScoreBoard();
+
+	mPlayerOneScore->Parent(mTopBar);
+	mPlayerTwoScore->Parent(mTopBar);
+	mTopScore->Parent(mTopBar);
+
+	mPlayerOneScore->Pos(QuickSDL::Vector2(-QuickSDL::Graphics::SCREEN_WIDTH * 0.25 +10 , 30.0f));
+	mPlayerTwoScore->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH * 0.25 +10, 30.0f));
+	mTopScore->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH * 0.05, 30.0f));
+
+	mTopScore->Score(10000);
+#pragma endregion
+
+
 #pragma region Logo
 	mLogo = new QuickSDL::Texture("Logo.png", 0,0,400,205);
 
@@ -134,6 +151,10 @@ StartScreen::~StartScreen()
 	delete mPlayerTwo;
 	delete mHighScore;
 
+	delete mPlayerOneScore;
+	delete mPlayerTwoScore;
+	delete mTopScore;
+
 	delete mLogo;
 	delete mAnimatedLogo;
 
@@ -151,6 +172,10 @@ StartScreen::~StartScreen()
 	mPlayerOne = NULL;
 	mPlayerTwo = NULL;
 	mHighScore = NULL;
+
+	mPlayerOneScore = NULL;
+	mPlayerTwoScore = NULL;
+	mTopScore = NULL;
 
 	mLogo = NULL;
 	mAnimatedLogo = NULL;
@@ -214,6 +239,10 @@ void StartScreen::Render()
 	mPlayerOne->Render();
 	mPlayerTwo->Render();
 	mHighScore->Render();
+
+	mPlayerOneScore->Render();
+	mPlayerTwoScore->Render();
+	mTopScore->Render();
 
 	if (mAnimationDone) mAnimatedLogo->Render();
 	else mLogo->Render();

@@ -3,6 +3,7 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "BackgroundStar.h"
+#include "ScoreBoard.h"
 
 class StartScreen : public QuickSDL::GameEntity
 {
@@ -13,6 +14,11 @@ private:
 	QuickSDL::Texture* mPlayerOne;
 	QuickSDL::Texture* mPlayerTwo;
 	QuickSDL::Texture* mHighScore;
+
+	// scores
+	ScoreBoard* mPlayerOneScore;
+	ScoreBoard* mPlayerTwoScore;
+	ScoreBoard* mTopScore;
 
 	// Logo
 	QuickSDL::Texture* mLogo;
