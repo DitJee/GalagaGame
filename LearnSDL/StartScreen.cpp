@@ -225,7 +225,7 @@ void StartScreen::Update()
 
 		if (mAnimationTimer >= mAnimationTotalTime)
 		{
-			mBackgroundStar->Scroll(false);
+			mBackgroundStar->Scroll(true);
 			mAnimationDone = true;
 		}
 	}

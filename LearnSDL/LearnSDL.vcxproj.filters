@@ -75,6 +75,12 @@
     <ClInclude Include="ScreenManager.h">
       <Filter>Header Files\Galaga</Filter>
     </ClInclude>
+    <ClInclude Include="PlayScreen.h">
+      <Filter>Header Files\Galaga</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScreenSideBar.h">
+      <Filter>Header Files\Galaga</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.cpp">
@@ -123,6 +129,12 @@
       <Filter>Source Files\Galaga</Filter>
     </ClCompile>
     <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files\Galaga</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScreen.cpp">
+      <Filter>Source Files\Galaga</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScreenSideBar.cpp">
       <Filter>Source Files\Galaga</Filter>
     </ClCompile>
   </ItemGroup>

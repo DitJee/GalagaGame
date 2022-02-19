@@ -37,11 +37,11 @@ void ScreenManager::Update()
 		break;
 	case ScreenManager::SCREENS::play:
 
+		mPlayScreen->Update();
 		// change to start menu by pressing `esc`
 		if (mInputManager->KeyPressed(SDL_SCANCODE_ESCAPE))
 		{
 			mCurrentScreen = SCREENS::start;
-			//mStartScreen->ResetAnimation();
 		}
 
 		break;
@@ -61,6 +61,7 @@ void ScreenManager::Render()
 
 		break;
 	case ScreenManager::SCREENS::play:
+		mPlayScreen->Render();
 		break;
 	default:
 		break;
@@ -73,6 +74,7 @@ ScreenManager::ScreenManager()
 
 	mBackgroundStar = BackgroundStar::Instance();
 	mStartScreen = new StartScreen;
+	mPlayScreen = new PlayScreen();
 
 	mCurrentScreen = SCREENS::start;
 }
@@ -84,5 +86,8 @@ ScreenManager::~ScreenManager()
 	mBackgroundStar->Release();
 
 	delete mStartScreen;
+	delete mPlayScreen;
+
 	mStartScreen = NULL;
+	mPlayScreen = NULL;
 }

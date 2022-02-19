@@ -153,6 +153,8 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MathHelper.h" />
+    <ClInclude Include="PlayScreen.h" />
+    <ClInclude Include="PlayScreenSideBar.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Star.h" />
@@ -171,6 +173,8 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayScreen.cpp" />
+    <ClCompile Include="PlayScreenSideBar.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="Star.cpp" />
