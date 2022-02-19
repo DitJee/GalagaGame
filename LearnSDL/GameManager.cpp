@@ -47,16 +47,17 @@ namespace QuickSDL {
 		// init Audio manager
 		mAudioManager = AudioManager::Instance();
 
-		// bg star
-		mBackgroundStar = BackgroundStar::Instance();
-
-		// init Start screen
-		mStartScreen = new StartScreen();
+		// init ScreenMananger
+		mScreenMananger = ScreenManager::Instance();
 
 	}
 
 	GameManager::~GameManager()
 	{
+		// delete mScreenMananger
+		mScreenMananger->Release();
+		mScreenMananger = NULL;
+
 		// delete asset manager
 		mAssetManager->Release();
 		mAssetManager = NULL;
@@ -77,13 +78,7 @@ namespace QuickSDL {
 		mAudioManager->Release();
 		mAudioManager = NULL;
 
-		// delete bg star
-		mBackgroundStar->Release();
-		mBackgroundStar = NULL;
-
-		// delete start screen
-		delete mStartScreen;
-		mStartScreen = NULL;
+	
 	}
 
 	void GameManager::EarlyUpdate()
@@ -94,8 +89,7 @@ namespace QuickSDL {
 
 	void GameManager::Update()
 	{
-		mBackgroundStar->Update();
-		mStartScreen->Update();
+		mScreenMananger->Update();
 	}
 
 	void GameManager::LateUpdate()
@@ -110,9 +104,7 @@ namespace QuickSDL {
 	{
 		mGraphics->ClearBackBuffer();
 
-		mBackgroundStar->Render();
-
-		mStartScreen->Render();
+		mScreenMananger->Render();
 
 		mGraphics->Render();
 	}

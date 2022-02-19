@@ -60,6 +60,10 @@ public:
 	StartScreen();
 	~StartScreen();
 
+	int SelectedMode();
+
+	void ResetAnimation();
+
 	void ChangeSelectedMode(int changedMode);
 
 	void Update() override;

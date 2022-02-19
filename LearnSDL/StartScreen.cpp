@@ -120,24 +120,10 @@ StartScreen::StartScreen()
 #pragma endregion
 
 #pragma region Animation
-	// screen animation
-
-	// start pos
-	mAnimationStartPos = QuickSDL::Vector2(0, QuickSDL::Graphics::SCREEN_HEIGHT);
-
-	// end pos
-	mAnimationEndPos = QuickSDL::VEC2_ZERO;
-
-	// period
-	mAnimationTotalTime = 5.0f;
-
-	mAnimationTimer = 0.0f;
-	mAnimationDone = false;
 
 	mTimer = QuickSDL::Timer::Instance();
 
-	// set initial starting position
-	this->Pos(mAnimationStartPos);
+	ResetAnimation();
 #pragma endregion
 
 	mBackgroundStar = BackgroundStar::Instance();
@@ -192,6 +178,32 @@ StartScreen::~StartScreen()
 
 	mBackgroundStar->Release();
 	mBackgroundStar = NULL;
+}
+
+int StartScreen::SelectedMode()
+{
+	return mSelectedMode;
+}
+
+void StartScreen::ResetAnimation()
+{
+	// screen animation
+
+	// start pos
+	mAnimationStartPos = QuickSDL::Vector2(0, QuickSDL::Graphics::SCREEN_HEIGHT);
+
+	// end pos
+	mAnimationEndPos = QuickSDL::VEC2_ZERO;
+
+	// period
+	mAnimationTotalTime = 5.0f;
+
+	mAnimationTimer = 0.0f;
+	mAnimationDone = false;
+
+
+	// set initial starting position
+	this->Pos(mAnimationStartPos);
 }
 
 void StartScreen::ChangeSelectedMode(int changedMode)
