@@ -1,7 +1,14 @@
 #include "ScoreBoard.h"
 
 ScoreBoard::ScoreBoard()
+	: ScoreBoard({230,230,230})
 {
+	
+}
+
+ScoreBoard::ScoreBoard(SDL_Color color)
+{
+	mColor = color;
 	Score(0);
 }
 
@@ -19,7 +26,7 @@ void ScoreBoard::Score(int score)
 		// loop twice to add 00 as a score
 		for (size_t i = 0; i < 2; i++)
 		{
-			mScore.push_back(new QuickSDL::Texture("0", "myFont.ttf", 32, { 230,230,230 }));
+			mScore.push_back(new QuickSDL::Texture("0", "myFont.ttf", 32, mColor));
 
 			mScore[i]->Parent(this);
 			mScore[i]->Pos(QuickSDL::Vector2(-32.0f * i, 0.0f));
@@ -31,7 +38,7 @@ void ScoreBoard::Score(int score)
 
 		for (size_t i = 0; i <= score_str.length()-1; i++)
 		{
-			mScore.push_back(new QuickSDL::Texture(score_str.substr(i,1), "myFont.ttf", 32, { 230,230,230 }));
+			mScore.push_back(new QuickSDL::Texture(score_str.substr(i,1), "myFont.ttf", 32, mColor));
 
 			mScore[i]->Parent(this);
 			mScore[i]->Pos(QuickSDL::Vector2(-32.0f * (score_str.length() - 1 - i), 0.0f));

@@ -9,9 +9,12 @@ private:
 
 	std::vector<QuickSDL::Texture*> mScore;
 
+	SDL_Color mColor;
+
 public:
 
 	ScoreBoard();
+	ScoreBoard(SDL_Color color);
 	~ScoreBoard();
 
 	void Score(int score);

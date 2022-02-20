@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "BackgroundStar.h"
 #include "PlayScreenSideBar.h"
+#include "Level.h"
 
 class PlayScreen : public QuickSDL::GameEntity
 {
@@ -13,9 +14,29 @@ private:
 
 	PlayScreenSideBar* mSideBar;
 
+	QuickSDL::AudioManager* mAudioManager;
+	
+	QuickSDL::Texture* mStartLabel;
+
+	float mLevelStartTimer;
+	float mLevelStartDelay;
+
+	bool mGameStarted;
+
+	bool mLevelStarted;
+	int mCurrentStage;
+
+	Level* mLevel;
+
+private:
+
+	void StartNextLevel();
+
 public:
 	PlayScreen();
 	~PlayScreen();
+
+	void StartNewGame();
 
 	void Update();
 	void Render();

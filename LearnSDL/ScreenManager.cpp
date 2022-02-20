@@ -32,6 +32,7 @@ void ScreenManager::Update()
 		{
 			mCurrentScreen = SCREENS::play;
 			mStartScreen->ResetAnimation();
+			mPlayScreen->StartNewGame();
 		}
 
 		break;
