@@ -23,6 +23,11 @@ Player::Player()
 	mDeathAnimation->Parent(this);
 	mDeathAnimation->Pos(QuickSDL::VEC2_ZERO);
 	mDeathAnimation->WrapMode(QuickSDL::AnimatedTexture::WRAP_MODE::once);
+
+	for (size_t i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i] = new Bullet();
+	}
 }
 
 Player::~Player()
@@ -37,17 +42,23 @@ Player::~Player()
 
 	delete mDeathAnimation;
 	mDeathAnimation = NULL;
+
+	for (size_t i = 0; i < MAX_BULLETS; i++)
+	{
+		delete mBullets[i];
+		mBullets[i] = NULL;
+	}
 }
 
 void Player::HandleMovement()
 {
 	if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		Translate(QuickSDL::VEC2_Right * mMoveSpeed * mTimer->DeltaTime());
+		Translate(QuickSDL::VEC2_Right * mMoveSpeed * mTimer->DeltaTime(), GameEntity::SPACE::world);
 	}
 	else if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
 	{
-		Translate(-QuickSDL::VEC2_Right * mMoveSpeed * mTimer->DeltaTime());
+		Translate(-QuickSDL::VEC2_Right * mMoveSpeed * mTimer->DeltaTime(), GameEntity::SPACE::world);
 	}
 
 	QuickSDL::Vector2 pos = Pos(GameEntity::SPACE::local);
@@ -61,6 +72,22 @@ void Player::HandleMovement()
 	}
 
 	Pos(pos);
+}
+
+void Player::HandleFiring()
+{
+	if (mInputManager->KeyPressed(SDL_SCANCODE_X))
+	{
+		for (size_t i = 0; i < MAX_BULLETS; i++)
+		{
+			if (!mBullets[i]->Active())
+			{
+				mBullets[i]->Fire(Pos());
+				mAudioManager->PlaySFX("FireSound.wav");
+				break;
+			}
+		}
+	}
 }
 
 void Player::Visible(bool isVisible)
@@ -104,7 +131,13 @@ void Player::Update()
 		if (Active())
 		{
 			HandleMovement();
+			HandleFiring();
 		}
+	}
+
+	for (size_t i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Update();
 	}
 }
 
@@ -121,5 +154,10 @@ void Player::Render()
 			mShip->Render();	
 
 		}
+	}
+
+	for (size_t i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Render();
 	}
 }

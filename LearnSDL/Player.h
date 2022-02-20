@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "AnimatedTexture.h"
 #include "AudioManager.h"
+#include "Bullet.h"
 
 class Player : public QuickSDL::GameEntity
 {
@@ -24,8 +25,12 @@ private:
 
 	QuickSDL::AnimatedTexture* mDeathAnimation;
 
+	static const int MAX_BULLETS = 2;
+	Bullet* mBullets[MAX_BULLETS];
+
 private:
 	void HandleMovement();
+	void HandleFiring();
 
 public:
 	Player();

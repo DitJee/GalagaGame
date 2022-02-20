@@ -36,7 +36,7 @@ Star::~Star()
 
 void Star::ScrollStar()
 {
-	Translate(QuickSDL::VEC2_UP * mScrollSpeed);
+	Translate(QuickSDL::VEC2_UP * mScrollSpeed, GameEntity::SPACE::world);
 
 	QuickSDL::Vector2 pos = Pos(QuickSDL::GameEntity::SPACE::local);
 
