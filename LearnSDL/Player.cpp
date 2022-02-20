@@ -4,6 +4,7 @@ Player::Player()
 {
 	mTimer = QuickSDL::Timer::Instance();
 	mInputManager = QuickSDL::InputManager::Instance();
+	mAudioManager = QuickSDL::AudioManager::Instance();
 
 	mIsVisible = false;
 	mIsAnimating = false;
@@ -17,6 +18,11 @@ Player::Player()
 
 	mMoveSpeed = 300.f;
 	mMoveBound = QuickSDL::Vector2(0.f + 25.f, 800.f - 60.f);
+
+	mDeathAnimation = new QuickSDL::AnimatedTexture("DeathAnim.png", 0,0, 125,128,4,1.0f,QuickSDL::AnimatedTexture::ANIM_DIR::horizontal);
+	mDeathAnimation->Parent(this);
+	mDeathAnimation->Pos(QuickSDL::VEC2_ZERO);
+	mDeathAnimation->WrapMode(QuickSDL::AnimatedTexture::WRAP_MODE::once);
 }
 
 Player::~Player()
@@ -26,6 +32,11 @@ Player::~Player()
 
 	delete mShip;
 	mShip = NULL;
+
+	mAudioManager = NULL;
+
+	delete mDeathAnimation;
+	mDeathAnimation = NULL;
 }
 
 void Player::HandleMovement()
@@ -73,11 +84,20 @@ void Player::AddScore(int score)
 	mScore += score;
 }
 
+void Player::IsHit()
+{
+	mLives--;
+	mDeathAnimation->ResetAnimation();
+	mIsAnimating = true;
+	mAudioManager->PlaySFX("DeathSound.wav");
+}
+
 void Player::Update()
 {
 	if (mIsAnimating)
 	{
-
+		mDeathAnimation->Update();
+		mIsAnimating = mDeathAnimation->IsAnimating();
 	}
 	else
 	{
@@ -94,7 +114,7 @@ void Player::Render()
 	{
 		if (mIsAnimating)
 		{
-
+			mDeathAnimation->Render();
 		}
 		else
 		{

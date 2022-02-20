@@ -7,6 +7,12 @@
 
 class Level : public QuickSDL::GameEntity
 {
+public:
+	enum class LEVEL_STATES : Uint8
+	{
+		running, finished, gameover
+	};
+
 private:
 	QuickSDL::Timer* mTimer;
 	PlayScreenSideBar* mSideBar;
@@ -28,13 +34,34 @@ private:
 	float mReadyLabelOffScreen;
 
 	Player* mPlayer;
+
+	bool mPlayerHit;
+	float mPlayerRespawnDelay;
+	float mPlayerRespawnTimer;
+	float mPlayerRespawnLabelOnScreen;
+
+	QuickSDL::Texture* mGameOverLabel;
+	bool mGameOver;
+	float mGameOverDelay;
+	float mGameOverTimer;
+	float mGameOverOnScreen;
+
+	LEVEL_STATES mCurrentState;
 private:
 	void StartStage();
+	
+	void HandleStartLabels();
+
+	void HandleCollisions();
+
+	void HandlePlayerDeath();
 
 public:
 
 	Level(int stage, PlayScreenSideBar* sideBar, Player* player);
 	~Level();
+
+	Level::LEVEL_STATES State();
 
 	void Update();
 	void Render();

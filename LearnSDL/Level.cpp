@@ -33,6 +33,22 @@ Level::Level(int stage, PlayScreenSideBar* sideBar, Player* player)
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.5f;
 
 	mPlayer = player;
+
+	mPlayerHit = false;
+	mPlayerRespawnDelay = 3.0f;
+	mPlayerRespawnTimer = 0.0f;
+	mPlayerRespawnLabelOnScreen = 2.0f;
+
+	mGameOverLabel = new QuickSDL::Texture("GAMEOVER", "myFont.ttf", 32, { 150,0,0 });
+	mGameOverLabel->Parent(this);
+	mGameOverLabel->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH * 0.4f, QuickSDL::Graphics::SCREEN_HEIGHT * 0.5f));
+
+	mGameOver = false;
+	mGameOverDelay =4.0f;
+	mGameOverTimer = 0.0f;
+	mGameOverOnScreen = 1.0f;
+
+	mCurrentState = LEVEL_STATES::running;
 }
 
 Level::~Level()
@@ -51,39 +67,125 @@ Level::~Level()
 	mReadyLabel = NULL;
 
 	mPlayer = NULL;
+
+	delete mGameOverLabel;
+	mGameOverLabel = NULL;
 }
+
 
 void Level::StartStage()
 {
 	mStageStarted = true;
 }
 
+void Level::HandleStartLabels()
+{
+	mLabelTimer += mTimer->DeltaTime();
+
+	if (mLabelTimer >= mStageLabelOffScreen)
+	{
+		mBackgroundStar->Scroll(true);
+
+		if (mStage > 1)
+		{
+			StartStage();
+		}
+		else
+		{
+			if (mLabelTimer >= mReadyLabelOffScreen)
+			{
+				StartStage();
+
+				// activate player
+				mPlayer->Active(true);
+				mPlayer->Visible(true);
+			}
+		}
+	}
+}
+
+void Level::HandleCollisions()
+{
+	if (!mPlayerHit)
+	{
+		if (QuickSDL::InputManager::Instance()->KeyPressed(SDL_SCANCODE_H))
+		{
+			mPlayer->IsHit();
+			mSideBar->SetShips(mPlayer->Lives());
+			mPlayerHit = true;
+			mPlayerRespawnTimer = 0.0f;
+			mPlayer->Active(false);
+			mBackgroundStar->Scroll(false);
+		}
+	}
+}
+
+void Level::HandlePlayerDeath()
+{
+	if (!mPlayer->IsAnimating())
+	{
+		if (mPlayer->Lives() > 0)
+		{
+			if (mPlayerRespawnTimer == 0.0f)
+			{
+				mPlayer->Visible(false);
+			}
+
+			mPlayerRespawnTimer += mTimer->DeltaTime();
+
+			if (mPlayerRespawnTimer >= mPlayerRespawnDelay)
+			{
+				mPlayer->Active(true);
+				mPlayer->Visible(true);
+				mPlayerHit = false;
+				mBackgroundStar->Scroll(true);
+			}
+		}
+		else
+		{
+			if (mGameOverTimer == 0.0f)
+			{
+				mPlayer->Visible(false);
+			}
+
+			mGameOverTimer += mTimer->DeltaTime();
+
+			if (mGameOverTimer >= mGameOverDelay)
+			{
+				mCurrentState = LEVEL_STATES::gameover;
+			}
+		}
+	}
+}
+
+Level::LEVEL_STATES Level::State()
+{
+	return mCurrentState;
+}
+
 void Level::Update()
 {
 	if (!mStageStarted)
 	{
-		mLabelTimer += mTimer->DeltaTime();
+		HandleStartLabels();
+	}
+	else
+	{
+		HandleCollisions();
 
-		if (mLabelTimer >= mStageLabelOffScreen)
+		if (mPlayerHit)
 		{
-			mBackgroundStar->Scroll(true);
+			HandlePlayerDeath();
+		}
 
-			if (mStage > 1)
+		else
+		{
+			if (QuickSDL::InputManager::Instance()->KeyPressed(SDL_SCANCODE_F))
 			{
-				StartStage();
-			}
-			else
-			{
-				if (mLabelTimer >= mReadyLabelOffScreen)
-				{
-					StartStage();
-
-					// activate player
-					mPlayer->Active(true);
-					mPlayer->Visible(true);
-				}
+				mCurrentState = LEVEL_STATES::finished;
 			}
 		}
+		
 	}
 }
 
@@ -99,6 +201,21 @@ void Level::Render()
 		else if (mLabelTimer > mReadyLabelOnScreen && mLabelTimer <= mReadyLabelOffScreen)
 		{
 			mReadyLabel->Render();
+		}
+	}
+	else
+	{
+		if (mPlayerHit)
+		{
+			if (mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
+			{
+				mReadyLabel->Render();
+			}
+
+			if (mGameOverTimer > mGameOverOnScreen)
+			{
+				mGameOverLabel->Render();
+			}
 		}
 	}
 }

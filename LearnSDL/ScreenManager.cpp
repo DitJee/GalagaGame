@@ -39,8 +39,8 @@ void ScreenManager::Update()
 	case ScreenManager::SCREENS::play:
 
 		mPlayScreen->Update();
-		// change to start menu by pressing `esc`
-		if (mInputManager->KeyPressed(SDL_SCANCODE_ESCAPE))
+		
+		if (mPlayScreen->GameOver())
 		{
 			mCurrentScreen = SCREENS::start;
 		}

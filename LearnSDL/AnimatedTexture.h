@@ -47,6 +47,10 @@ namespace QuickSDL {
 
 		void WrapMode(WRAP_MODE mode);
 
+		void ResetAnimation();
+
+		bool IsAnimating();
+
 		void Update();
 
 	};

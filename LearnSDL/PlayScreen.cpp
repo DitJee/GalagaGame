@@ -65,13 +65,29 @@ void PlayScreen::StartNewGame()
 	mPlayer->Active(false);
 
 	mBackgroundStar->Scroll(false);
+
 	mSideBar->SetHighScore(10000);
 	mSideBar->SetShips(mPlayer->Lives());
 	mSideBar->SetPlayerScore(mPlayer->Score());
+	mSideBar->SetLevel(0);
 
 	mGameStarted = false; // dont start immediately
+
+	mLevelStarted = false;
+	mLevelStartTimer = 0.0f;
+
 	mAudioManager->PlayMusic("StartSound.wav", 0); // play once
 	mCurrentStage = 0;
+}
+
+bool PlayScreen::GameOver()
+{
+	if (!mLevelStarted)
+	{
+		return false;
+	}
+
+	return (mLevel->State() == Level::LEVEL_STATES::gameover);
 }
 
 void PlayScreen::Update()
@@ -107,14 +123,15 @@ void PlayScreen::Update()
 		if (mLevelStarted)
 		{
 			mLevel->Update();
+
+			if (mLevel->State() == Level::LEVEL_STATES::finished)
+			{
+				mLevelStarted = false;
+			}
 		}
 
 		mPlayer->Update();
 		
-		if (mInputManager->KeyPressed(SDL_SCANCODE_N))
-		{
-			mLevelStarted = false;
-		}
 	}
 
 }
