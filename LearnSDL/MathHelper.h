@@ -45,6 +45,11 @@ namespace QuickSDL {
 
 			return *this;
 		}
+
+		Vector2 operator -() const
+		{
+			return Vector2(-x, -y);
+		}
 	};
 
 	inline Vector2 operator +(const Vector2& lhs, const Vector2& rhs)

@@ -154,6 +154,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MathHelper.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScreen.h" />
     <ClInclude Include="PlayScreenSideBar.h" />
     <ClInclude Include="ScoreBoard.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScreen.cpp" />
     <ClCompile Include="PlayScreenSideBar.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />

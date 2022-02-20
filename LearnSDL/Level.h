@@ -1,8 +1,9 @@
 #pragma once
 
-#include "InputManager.h"
+
 #include "PlayScreenSideBar.h"
 #include "BackgroundStar.h"
+#include "Player.h"
 
 class Level : public QuickSDL::GameEntity
 {
@@ -10,6 +11,7 @@ private:
 	QuickSDL::Timer* mTimer;
 	PlayScreenSideBar* mSideBar;
 	BackgroundStar* mBackgroundStar;
+	
 
 	int mStage;
 	bool mStageStarted;
@@ -25,12 +27,13 @@ private:
 	float mReadyLabelOnScreen;
 	float mReadyLabelOffScreen;
 
+	Player* mPlayer;
 private:
 	void StartStage();
 
 public:
 
-	Level(int stage, PlayScreenSideBar* sideBar);
+	Level(int stage, PlayScreenSideBar* sideBar, Player* player);
 	~Level();
 
 	void Update();

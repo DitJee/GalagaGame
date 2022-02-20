@@ -1,7 +1,7 @@
 #include "Level.h"
 
 
-Level::Level(int stage, PlayScreenSideBar* sideBar)
+Level::Level(int stage, PlayScreenSideBar* sideBar, Player* player)
 {
 	mTimer = QuickSDL::Timer::Instance();
 	mSideBar = sideBar;
@@ -18,7 +18,7 @@ Level::Level(int stage, PlayScreenSideBar* sideBar)
 	mStageLabel->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH * 0.35f, QuickSDL::Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mStageNumber = new ScoreBoard({ 75,75,200 });
-	mStageNumber->Score(mStage);
+	mStageNumber->Score(stage);
 	mStageNumber->Parent(this);
 	mStageNumber->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH * 0.5f, QuickSDL::Graphics::SCREEN_HEIGHT * 0.5f));
 
@@ -31,6 +31,8 @@ Level::Level(int stage, PlayScreenSideBar* sideBar)
 
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.5f;
+
+	mPlayer = player;
 }
 
 Level::~Level()
@@ -48,6 +50,7 @@ Level::~Level()
 	delete mReadyLabel;
 	mReadyLabel = NULL;
 
+	mPlayer = NULL;
 }
 
 void Level::StartStage()
@@ -74,6 +77,10 @@ void Level::Update()
 				if (mLabelTimer >= mReadyLabelOffScreen)
 				{
 					StartStage();
+
+					// activate player
+					mPlayer->Active(true);
+					mPlayer->Visible(true);
 				}
 			}
 		}

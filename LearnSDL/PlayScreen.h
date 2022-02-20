@@ -1,8 +1,7 @@
 #pragma once
-#include "InputManager.h"
-#include "BackgroundStar.h"
-#include "PlayScreenSideBar.h"
+
 #include "Level.h"
+
 
 class PlayScreen : public QuickSDL::GameEntity
 {
@@ -28,6 +27,8 @@ private:
 
 	Level* mLevel;
 
+
+	Player* mPlayer;
 private:
 
 	void StartNextLevel();

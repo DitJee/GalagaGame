@@ -21,6 +21,8 @@ PlayScreen::PlayScreen()
 	mLevelStarted = false;
 
 	mLevel = NULL;
+
+	mPlayer = NULL;
 }
 
 PlayScreen::~PlayScreen()
@@ -37,6 +39,9 @@ PlayScreen::~PlayScreen()
 
 	delete mLevel;
 	mLevel = NULL;
+
+	delete mPlayer;
+	mPlayer = NULL;
 }
 
 void PlayScreen::StartNextLevel()
@@ -47,19 +52,26 @@ void PlayScreen::StartNextLevel()
 	
 	delete mLevel;
 
-	mLevel = new Level(mCurrentStage, mSideBar);
+	mLevel = new Level(mCurrentStage, mSideBar, mPlayer);
 }
 
 
 void PlayScreen::StartNewGame()
 {
+	delete mPlayer;
+	mPlayer = new Player();
+	mPlayer->Parent(this);
+	mPlayer->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH * 0.4f, QuickSDL::Graphics::SCREEN_HEIGHT * 0.85f));
+	mPlayer->Active(false);
+
 	mBackgroundStar->Scroll(false);
 	mSideBar->SetHighScore(10000);
-	mSideBar->SetShips(2);
+	mSideBar->SetShips(mPlayer->Lives());
+	mSideBar->SetPlayerScore(mPlayer->Score());
 
 	mGameStarted = false; // dont start immediately
 	mAudioManager->PlayMusic("StartSound.wav", 0); // play once
-	mCurrentStage = 10;
+	mCurrentStage = 0;
 }
 
 void PlayScreen::Update()
@@ -85,10 +97,24 @@ void PlayScreen::Update()
 		}
 	}
 
-	if (mGameStarted && mLevelStarted)
+	if (mGameStarted)
 	{
-		mSideBar->Update();
-		mLevel->Update();
+		if (mCurrentStage > 0)
+		{
+			mSideBar->Update();
+		}
+
+		if (mLevelStarted)
+		{
+			mLevel->Update();
+		}
+
+		mPlayer->Update();
+		
+		if (mInputManager->KeyPressed(SDL_SCANCODE_N))
+		{
+			mLevelStarted = false;
+		}
 	}
 
 }
@@ -103,9 +129,15 @@ void PlayScreen::Render()
 		
 	}
 
-	if (mGameStarted && mLevelStarted)
+	if (mGameStarted)
 	{
-		mLevel->Render();
+		if (mLevelStarted)
+		{
+			mLevel->Render();
+
+		}
+
+		mPlayer->Render();
 	}
 }
 
