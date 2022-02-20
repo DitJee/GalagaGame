@@ -1,6 +1,5 @@
 #include "PlayScreenSideBar.h"
 
-
 PlayScreenSideBar::PlayScreenSideBar()
 {
 	mTimer = QuickSDL::Timer::Instance();
@@ -51,6 +50,12 @@ PlayScreenSideBar::PlayScreenSideBar()
 	mTotalShipsLabel->Parent(mShips);
 	mTotalShipsLabel->Pos(QuickSDL::Vector2(140.0f, 75.0f));
 
+	mFlags = new QuickSDL::GameEntity();
+	mFlags->Parent(this);
+	mFlags->Pos(QuickSDL::Vector2(-50.f, 480.f));
+
+	mFlagTimer = 0.0f;
+	mFlagInterval = 0.5f;
 }
 
 PlayScreenSideBar::~PlayScreenSideBar()
@@ -69,6 +74,67 @@ PlayScreenSideBar::~PlayScreenSideBar()
 
 	delete mTotalShipsLabel;
 	mTotalShipsLabel = NULL;
+
+	delete mFlags;
+	mFlags = NULL;
+
+	ClearFlags();
+}
+
+void PlayScreenSideBar::ClearFlags()
+{
+	for (QuickSDL::Texture* mFlagTexture : mFlagTextures)
+	{
+		delete mFlagTexture;
+		mFlagTexture = NULL;
+	}
+	mFlagTextures.clear();
+}
+
+void PlayScreenSideBar::AddNextFlag()
+{
+	if (mRemainingLevels >= 50)
+	{
+		AddFlag("50LevelFlag.png", 62.0f, 50);
+	}
+	else if (mRemainingLevels >= 30)
+	{
+		AddFlag("30LevelFlag.png", 62.0f, 30);
+	}
+	else if (mRemainingLevels >= 20)
+	{
+		AddFlag("20LevelFlag.png", 62.0f, 20);
+	}
+	else if (mRemainingLevels >= 10)
+	{
+		AddFlag("10LevelFlag.png", 54.0f, 10);
+	}
+	else if (mRemainingLevels >= 5)
+	{
+		AddFlag("5LevelFlag.png", 30.0f, 5);
+	}
+	else 
+	{
+		AddFlag("1LevelFlag.png", 30.0f, 1);
+	}
+}
+
+void PlayScreenSideBar::AddFlag(const std::string& filename, float width, int value)
+{
+	if (mFlagTextures.size() > 0)
+	{
+		mFlagXOffset += width * 0.5f;
+	}
+	
+
+	mRemainingLevels -= value;
+	mFlagTextures.push_back(new QuickSDL::Texture(filename));
+	mFlagTextures.back()->Parent(mFlags);
+	mFlagTextures.back()->Pos(QuickSDL::VEC2_Right * mFlagXOffset);
+	mFlagXOffset += width * 0.5f;
+
+	// play sound
+	mAudioManager->PlaySFX("FlagSound.wav");
 }
 
 void PlayScreenSideBar::SetHighScore(int score)
@@ -91,6 +157,15 @@ void PlayScreenSideBar::SetShips(int ships)
 	}
 }
 
+void PlayScreenSideBar::SetLevel(int level)
+{
+	ClearFlags();
+
+	mRemainingLevels = level;
+
+	mFlagXOffset = 0.0f;
+}
+
 void PlayScreenSideBar::Update()
 {
 	mBlinkTimer += mTimer->DeltaTime();
@@ -99,6 +174,17 @@ void PlayScreenSideBar::Update()
 	{
 		mIsPlayerOneVisible = !mIsPlayerOneVisible;
 		mBlinkTimer = 0.0f;
+	}
+
+	if (mRemainingLevels > 0)
+	{
+		mFlagTimer += mTimer->DeltaTime();
+
+		if (mFlagTimer >= mFlagInterval)
+		{
+			AddNextFlag();
+			mFlagTimer = 0.0f;
+		}
 	}
 }
 
@@ -121,5 +207,12 @@ void PlayScreenSideBar::Render()
 	}
 
 	if (mTotalShips > MAX_SHIP_TEXTURES)
+	{
 		mTotalShipsLabel->Render();
+	}
+
+	for (QuickSDL::Texture* mFlagTexture : mFlagTextures)
+	{
+		mFlagTexture->Render();
+	}
 }

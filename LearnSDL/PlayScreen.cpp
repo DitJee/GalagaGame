@@ -12,8 +12,8 @@ PlayScreen::PlayScreen()
 	mSideBar->Pos(QuickSDL::Vector2(QuickSDL::Graphics::SCREEN_WIDTH *0.85f, QuickSDL::Graphics::SCREEN_HEIGHT * 0.05f));
 
 	mSideBar->SetHighScore(10000);
-
 	mSideBar->SetShips(70);
+	mSideBar->SetLevel(155);
 }
 
 PlayScreen::~PlayScreen()

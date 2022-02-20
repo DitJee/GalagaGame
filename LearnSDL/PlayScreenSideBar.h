@@ -34,6 +34,20 @@ private:
 	ScoreBoard* mTotalShipsLabel;
 	int mTotalShips;
 
+	QuickSDL::GameEntity* mFlags;
+	std::vector<QuickSDL::Texture*> mFlagTextures;
+	int mRemainingLevels;
+	int mFlagXOffset;
+	float mFlagTimer;
+	float mFlagInterval;
+
+private:
+	void ClearFlags();
+
+	void AddNextFlag();
+
+	void AddFlag(const std::string& filename, float width, int value);
+
 public:
 	PlayScreenSideBar();
 	~PlayScreenSideBar();
@@ -43,6 +57,8 @@ public:
 	void SetPlayerScore(int score);
 
 	void SetShips(int ships);
+
+	void SetLevel(int level);
 	
 	void Update();
 	void Render();
